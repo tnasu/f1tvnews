@@ -108,8 +108,7 @@ public class RssController extends Controller {
 		con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11");
 		if (lastModified != 0) {
 			Date date = new Date(lastModified);
-			SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-			Locale.setDefault(Locale.ENGLISH);
+			SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
 			con.setRequestProperty("If-Modified-Since", sdf.format(date).replace(" UTC", " GMT"));
 		}
 		con.connect();
