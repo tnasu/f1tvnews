@@ -44,7 +44,7 @@ import com.sun.syndication.io.SyndFeedOutput;
 public class RssController extends Controller {
 
 	static final Logger LOGGER = Logger.getLogger(RssController.class.getName());
-	
+
 	static final String ENDPOINT = "http://www.bsfuji.tv/top/pub/f1.html";
 
 	@Override
@@ -123,7 +123,7 @@ public class RssController extends Controller {
 			br = new BufferedReader(new InputStreamReader((InputStream) con.getContent(), Charset.forName("UTF-8")));
 			StringWriter sw = new StringWriter();
 			while (br.ready()) {
-				sw.append(br.readLine().trim().replace("Å@", "").replace("\t", ""));
+				sw.append(br.readLine().trim().replace("„ÄÄ", "").replace("\t", ""));
 			}
 			sw.flush();
 			String html = sw.toString();
@@ -170,9 +170,9 @@ public class RssController extends Controller {
 		htmlContent.setShowtime(fillValue(html, "<div class=\"free\">", "</div>").replace("<br />", " "));
 		return htmlContent;
 	}
-	
+
 	private HtmlContent fillNextModify(HtmlContent htmlContent) throws ParseException {
-		String prefix = "ÅyåàèüÅz";
+		String prefix = "„ÄêÊ±∫Âãù„Äë";
 		String suffix = "(";
 		String showtime = htmlContent.getShowtime();
 		int beginIndex = showtime.indexOf(prefix);
@@ -183,7 +183,7 @@ public class RssController extends Controller {
 		if (endIndex != -1) {
 			showtime = showtime.substring(0, endIndex);
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat("MMåéddì˙");
+		SimpleDateFormat sdf = new SimpleDateFormat("MMÊúàddÊó•");
 		Calendar last = Calendar.getInstance();
 		last.setTimeInMillis(htmlContent.getLastModified());
 		Calendar next = Calendar.getInstance();
@@ -195,7 +195,7 @@ public class RssController extends Controller {
 		htmlContent.setNextModify(next.getTimeInMillis());
 		return htmlContent;
 	}
-	
+
 	private HtmlDocument fillDocument(HtmlDocument htmlDocument, HtmlContent htmlContent) {
 		String html = htmlContent.getHtml().getValue();
 		String description = fillValue(html, "<meta name=\"description\" content=\"", "\" />");
@@ -280,5 +280,5 @@ public class RssController extends Controller {
 		LOGGER.info(sw.toString());
 		pw.close();
 	}
-	
+
 }

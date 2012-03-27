@@ -1,6 +1,6 @@
 package jp.tnasu.f1tvnews.meta;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2012-03-20 20:33:08")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2012-03-27 11:10:00")
 /** */
 public final class HtmlDocumentMeta extends org.slim3.datastore.ModelMeta<jp.tnasu.f1tvnews.model.HtmlDocument> {
 
