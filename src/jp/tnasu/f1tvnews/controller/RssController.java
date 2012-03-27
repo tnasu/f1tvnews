@@ -109,7 +109,7 @@ public class RssController extends Controller {
 		if (lastModified != 0) {
 			Date date = new Date(lastModified);
 			SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
-			con.setRequestProperty("If-Modified-Since", sdf.format(date).replace(" UTC", " GMT"));
+			con.setRequestProperty("If-Modified-Since", sdf.format(date).replaceAll(" UTC", " GMT"));
 		}
 		con.connect();
 		debug(con);
@@ -122,7 +122,7 @@ public class RssController extends Controller {
 			br = new BufferedReader(new InputStreamReader((InputStream) con.getContent(), Charset.forName("UTF-8")));
 			StringWriter sw = new StringWriter();
 			while (br.ready()) {
-				sw.append(br.readLine().trim().replace("　", "").replace("\t", ""));
+				sw.append(br.readLine().trim().replaceAll("　", "").replaceAll("\t", ""));
 			}
 			sw.flush();
 			String html = sw.toString();
@@ -165,8 +165,8 @@ public class RssController extends Controller {
 		//LOGGER.severe(html);
 		htmlContent.setData(new Text(html));
 		htmlContent.setTitle(fillValue(html, "<div class=\"title\">", "</div>") + fillValue(html, "<div class=\"subtitle\">", "</div>"));
-		htmlContent.setDescription(fillValue(html, "<div class=\"midokoroIn\">", "</div>").replace("<p>", " ").replace("</p>", " "));
-		htmlContent.setShowtime(fillValue(html, "<div class=\"free\">", "</div>").replace("<br />", " "));
+		htmlContent.setDescription(fillValue(html, "<div class=\"midokoroIn\">", "</div>").replaceAll("<p>", " ").replace("</p>", " "));
+		htmlContent.setShowtime(fillValue(html, "<div class=\"free\">", "</div>").replaceAll("<br />", " "));
 		return htmlContent;
 	}
 
