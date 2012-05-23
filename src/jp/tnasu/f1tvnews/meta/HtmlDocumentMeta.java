@@ -1,6 +1,6 @@
 package jp.tnasu.f1tvnews.meta;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2012-03-27 11:10:00")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2012-05-23 15:29:51")
 /** */
 public final class HtmlDocumentMeta extends org.slim3.datastore.ModelMeta<jp.tnasu.f1tvnews.model.HtmlDocument> {
 
@@ -47,7 +47,7 @@ public final class HtmlDocumentMeta extends org.slim3.datastore.ModelMeta<jp.tna
         jp.tnasu.f1tvnews.model.HtmlDocument model = new jp.tnasu.f1tvnews.model.HtmlDocument();
         model.setCopyright((java.lang.String) entity.getProperty("copyright"));
         model.setDescription((java.lang.String) entity.getProperty("description"));
-        java.util.List<jp.tnasu.f1tvnews.model.HtmlContent> _htmlContentList = blobToSerializable((com.google.appengine.api.datastore.Blob) entity.getProperty("htmlContentList"));
+        java.util.List<jp.tnasu.f1tvnews.dto.HtmlContent> _htmlContentList = blobToSerializable((com.google.appengine.api.datastore.Blob) entity.getProperty("htmlContentList"));
         model.setHtmlContentList(_htmlContentList);
         model.setKey(entity.getKey());
         model.setLanguage((java.lang.String) entity.getProperty("language"));
@@ -75,7 +75,7 @@ public final class HtmlDocumentMeta extends org.slim3.datastore.ModelMeta<jp.tna
         entity.setProperty("publishedDate", m.getPublishedDate());
         entity.setProperty("title", m.getTitle());
         entity.setProperty("version", m.getVersion());
-        entity.setProperty("slim3.schemaVersion", 1);
+        entity.setProperty("slim3.schemaVersion", 2);
         return entity;
     }
 
@@ -147,7 +147,7 @@ public final class HtmlDocumentMeta extends org.slim3.datastore.ModelMeta<jp.tna
         }
         if(m.getHtmlContentList() != null){
             writer.setNextPropertyName("htmlContentList");
-            // jp.tnasu.f1tvnews.model.HtmlContent is not supported.
+            // jp.tnasu.f1tvnews.dto.HtmlContent is not supported.
         }
         if(m.getKey() != null){
             writer.setNextPropertyName("key");

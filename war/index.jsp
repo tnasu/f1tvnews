@@ -10,9 +10,6 @@
 </head>
 <body>
 <p>Hello Index !!!</p>
-<p>
-<img src="http://code.google.com/appengine/images/appengine-noborder-120x30.gif" 
-alt="Powered by Google App Engine" />
-</p>
+<p><img src="http://code.google.com/appengine/images/appengine-noborder-120x30.gif" alt="Powered by Google App Engine" /></p>
 </body>
 </html>

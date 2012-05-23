@@ -3,12 +3,14 @@ package jp.tnasu.f1tvnews.model;
 import java.util.Date;
 import java.util.List;
 
+import jp.tnasu.f1tvnews.dto.HtmlContent;
+
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
 
 import com.google.appengine.api.datastore.Key;
 
-@Model(schemaVersion = 1)
+@Model(schemaVersion = 2)
 public class HtmlDocument {
 
 	private String title;
@@ -17,6 +19,8 @@ public class HtmlDocument {
 	private String language;
 	private String copyright;
 	private Date publishedDate;
+	@Attribute(lob = true)
+	private List<HtmlContent> htmlContentList;
 	
 	public String getTitle() {
 		return title;
@@ -65,9 +69,6 @@ public class HtmlDocument {
 	public void setPublishedDate(Date publishedDate) {
 		this.publishedDate = publishedDate;
 	}
-
-	@Attribute(lob = true)
-	private List<HtmlContent> htmlContentList;
 
 	public List<HtmlContent> getHtmlContentList() {
 		return htmlContentList;

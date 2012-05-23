@@ -1,9 +1,10 @@
 package jp.tnasu.f1tvnews.model;
 
-import org.slim3.tester.AppEngineTestCase;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.slim3.tester.AppEngineTestCase;
 
 public class HtmlDocumentTest extends AppEngineTestCase {
 
