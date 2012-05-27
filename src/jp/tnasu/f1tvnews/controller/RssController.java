@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -46,6 +47,7 @@ public class RssController extends Controller {
 
 	@Override
 	public Navigation run() throws Exception {
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Tokyo"));
 		Key key = htmlDocumentDao.getKey();
 		HtmlDocument htmlDocument = htmlDocumentDao.get(key);
 		long lastModified = 0L;
@@ -64,9 +66,9 @@ public class RssController extends Controller {
 				fillDocument(htmlDocument, htmlContent);
 				htmlDocument.getHtmlContentList().add(0, htmlContent);
 				htmlDocumentDao.put(htmlDocument);
+				registGoogleCalendar(htmlDocument);
 			}
 		}
-		registGoogleCalendar(htmlDocument);
 		RssHandler.writeRss(response, htmlDocument);
 		return null;
 	}
@@ -104,6 +106,52 @@ public class RssController extends Controller {
 		htmlContent.setShowtime(getString(html, "<div class=\"midokoroIn\"> <p>", "</p>").replaceAll("<.+?>", " "));
 		fillAnyTime(htmlContent, html);
 		return htmlContent;
+	}
+
+	static final String regexQualify = "【予選】";
+
+	static final String regexRace = "【決勝】";
+
+	static final String regex = "([0-9]月[0-9]?[0-9]日)\\(.\\) ([0-9]?[0-9]:[0-9][0-9])～([0-9]?[0-9]:[0-9]?[0-9])";
+
+	private HtmlContent fillAnyTime(HtmlContent htmlContent, String html) {
+		try {
+			fillAnyTime(htmlContent, html, regex, regexQualify);
+			fillAnyTime(htmlContent, html, regex, regexRace);
+		} catch (ParseException e) {
+			LOGGER.severe(e.getLocalizedMessage());
+		}
+		return htmlContent;
+	}
+
+	private void fillAnyTime(HtmlContent htmlContent, String html, String regex, String prefix) throws ParseException {
+		Pattern pattern = Pattern.compile("(" + prefix + regex + ")");
+		Matcher matcher = pattern.matcher(html);
+		if (matcher.find()) {
+			String date = matcher.group(2);
+			String startTime = matcher.group(3);
+			String endTime = matcher.group(4);
+			SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日HH:mm");
+			Date s = sdf.parse(date + startTime);
+			Date e = sdf.parse(date + endTime);
+			Calendar nowCal = Calendar.getInstance();
+			Calendar startCal = Calendar.getInstance();
+			Calendar endCal = Calendar.getInstance();
+			nowCal.setTime(new Date());
+			startCal.setTime(s);
+			startCal.set(Calendar.YEAR, nowCal.get(Calendar.YEAR));
+			endCal.setTime(e);
+			endCal.set(Calendar.YEAR, nowCal.get(Calendar.YEAR));
+			LOGGER.severe(new Date(startCal.getTimeInMillis()).toString());
+			LOGGER.severe(new Date(endCal.getTimeInMillis()).toString());
+			if (regexQualify.equals(prefix)) {
+				htmlContent.setQualifyStartTime(startCal.getTime());
+				htmlContent.setQualifyEndTime(endCal.getTime());
+			} else if (regexRace.equals(prefix)) {
+				htmlContent.setRaceStartTime(startCal.getTime());
+				htmlContent.setRaceEndTime(endCal.getTime());
+			}
+		}
 	}
 
 	private HtmlContent fillNextModify(HtmlContent htmlContent) {
@@ -146,48 +194,6 @@ public class RssController extends Controller {
 		}
 		// LOGGER.severe(html);
 		return html;
-	}
-
-	static final String regexQualify = "【予選】";
-	static final String regexRace = "【決勝】";
-	static final String regex = "([0-9]月[0-9]?[0-9]日)\\(.\\) ([0-9]?[0-9]:[0-9][0-9])～([0-9]?[0-9]:[0-9]?[0-9])";
-
-	private HtmlContent fillAnyTime(HtmlContent htmlContent, String html) {
-		try {
-			fillAnyTime(htmlContent, html, regex, regexQualify);
-			fillAnyTime(htmlContent, html, regex, regexRace);
-		} catch (ParseException e) {
-			LOGGER.severe(e.getLocalizedMessage());
-		}
-		return htmlContent;
-	}
-
-	private void fillAnyTime(HtmlContent htmlContent, String html, String regex, String prefix) throws ParseException {
-		Pattern pattern = Pattern.compile("(" + prefix + regex + ")");
-		Matcher matcher = pattern.matcher(html);
-		if (matcher.find()) {
-			String date = matcher.group(2);
-			String startTime = matcher.group(3);
-			String endTime = matcher.group(4);
-			SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日HH:mm");
-			Date s = sdf.parse(date + startTime);
-			Date e = sdf.parse(date + endTime);
-			Calendar nowCal = Calendar.getInstance();
-			Calendar startCal = Calendar.getInstance();
-			Calendar endCal = Calendar.getInstance();
-			nowCal.setTime(new Date());
-			startCal.setTime(s);
-			startCal.set(Calendar.YEAR, nowCal.get(Calendar.YEAR));
-			endCal.setTime(e);
-			endCal.set(Calendar.YEAR, nowCal.get(Calendar.YEAR));
-			if (regexQualify.equals(prefix)) {
-				htmlContent.setQualifyStartTime(startCal.getTime());
-				htmlContent.setQualifyEndTime(endCal.getTime());
-			} else if (regexRace.equals(prefix)) {
-				htmlContent.setRaceStartTime(startCal.getTime());
-				htmlContent.setRaceEndTime(endCal.getTime());
-			}
-		}
 	}
 
 	private void registGoogleCalendar(HtmlDocument htmlDocument) {
