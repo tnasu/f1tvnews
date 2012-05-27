@@ -12,8 +12,8 @@ public class AbstractClient {
 	public HttpURLConnection getDefault(String u) throws IOException {
 		URL url = new URL(u);
 		HttpURLConnection http = (HttpURLConnection) url.openConnection();
-		http.setReadTimeout(1000);
-		http.setConnectTimeout(1000);
+		http.setReadTimeout(3000);
+		http.setConnectTimeout(3000);
 		http.setDoInput(true);
 		http.setDoOutput(true);
 		http.setInstanceFollowRedirects(false);
