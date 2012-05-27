@@ -29,6 +29,7 @@ public class RefreshController extends AbstractOauth2Controller {
     	String refresh = asString("refresh");
 		HttpURLConnection http = googleClient.getRefresh(refresh);
 		String content = googleClient.getContent(http);
+		LOGGER.severe("content:\n" + content);
 		try {
 			Google google = GoogleMeta.get().jsonToModel(content);
 			google.setRefreshToken(refresh);

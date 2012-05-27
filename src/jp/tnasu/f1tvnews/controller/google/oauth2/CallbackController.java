@@ -29,6 +29,7 @@ public class CallbackController extends AbstractOauth2Controller {
 		String code = asString("code");
 		HttpURLConnection http = googleClient.getToken(code);
 		String content = googleClient.getContent(http);
+		LOGGER.severe("content:\n" + content);
 		try {
 			Google google = GoogleMeta.get().jsonToModel(content);
 			google.setPublished(new Date());

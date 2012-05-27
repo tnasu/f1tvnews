@@ -6,14 +6,9 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.logging.Logger;
 
 public class F1bsfujiClient extends AbstractClient {
-
-	static final Logger LOGGER = Logger.getLogger(F1bsfujiClient.class.getName());
 
 	public static final String ENDPOINT = "http://www.bsfuji.tv/top/pub/f1.html";
 
@@ -35,26 +30,6 @@ public class F1bsfujiClient extends AbstractClient {
 		con.connect();
 		debug(con);
 		return con;
-	}
-
-	private void debug(HttpURLConnection con) throws IOException {
-		Map<String, List<String>> headers = con.getHeaderFields();
-		StringBuilder sb = new StringBuilder();
-		for (String headerKey : headers.keySet()) {
-			sb.append(headerKey);
-			List<String> headerValues = headers.get(headerKey);
-			for (String headerValue : headerValues) {
-				sb.append("\t");
-				sb.append(headerValue);
-			}
-			sb.append("\n");
-		}
-		// LOGGER.severe(sb.toString());
-		// LOGGER.severe(new Date(con.getDate()).toString());
-		LOGGER.severe(new Date(con.getLastModified()).toString());
-		// LOGGER.severe(con.getContentType());
-		// LOGGER.severe(con.getContentEncoding());
-		LOGGER.severe(String.valueOf(con.getResponseCode()));
 	}
 
 }
