@@ -3,8 +3,8 @@ package jp.tnasu.f1tvnews.dao;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import jp.tnasu.f1tvnews.dto.HtmlContent;
 import jp.tnasu.f1tvnews.handler.ErrorHandler;
+import jp.tnasu.f1tvnews.model.HtmlContent;
 import jp.tnasu.f1tvnews.model.HtmlDocument;
 
 import org.slim3.datastore.DaoBase;

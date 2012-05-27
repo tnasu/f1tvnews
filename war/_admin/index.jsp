@@ -11,7 +11,7 @@
 <body>
 <p>Hello _admin Index !!!</p>
 <div>
-<a href="https://appengine.google.com/permissions?&app_id=s~f1tvnews">permissions</a>
+<a target="_blank" href="https://appengine.google.com/permissions?&app_id=s~f1tvnews">permissions</a>
 </div>
 </body>
 </html>

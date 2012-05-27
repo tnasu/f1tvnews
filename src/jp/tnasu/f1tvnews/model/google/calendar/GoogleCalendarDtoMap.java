@@ -1,75 +1,25 @@
-package jp.tnasu.f1tvnews.model.google.oauth2;
+package jp.tnasu.f1tvnews.model.google.calendar;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Map;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
-import org.slim3.datastore.json.Json;
 
 import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 1)
-public class Google implements Serializable {
+public class GoogleCalendarDtoMap implements Serializable {
 
-	private Date published;
-	@Json(alias = "access_token")
-	private String accessToken;
-	@Json(alias = "token_type")
-	private String tokenType;
-	@Json(alias = "expires_in")
-	private String expiresIn;
-	@Json(alias = "refresh_token")
-	private String refreshToken;
-	@Json(alias = "error")
-	private String error;
+	@Attribute(lob = true)
+	private Map<String, GoogleCalendarDto> googleCalendarMap;
 
-	public Date getPublished() {
-		return published;
+	public Map<String, GoogleCalendarDto> getGoogleCalendarMap() {
+		return googleCalendarMap;
 	}
 
-	public void setPublished(Date published) {
-		this.published = published;
-	}
-
-	public String getAccessToken() {
-		return accessToken;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
-
-	public String getTokenType() {
-		return tokenType;
-	}
-
-	public void setTokenType(String tokenType) {
-		this.tokenType = tokenType;
-	}
-
-	public String getExpiresIn() {
-		return expiresIn;
-	}
-
-	public void setExpiresIn(String expiresIn) {
-		this.expiresIn = expiresIn;
-	}
-
-	public String getRefreshToken() {
-		return refreshToken;
-	}
-
-	public void setRefreshToken(String refreshToken) {
-		this.refreshToken = refreshToken;
-	}
-
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
+	public void setGoogleCalendarMap(Map<String, GoogleCalendarDto> googleCalendarMap) {
+		this.googleCalendarMap = googleCalendarMap;
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -137,7 +87,7 @@ public class Google implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Google other = (Google) obj;
+		GoogleCalendarDtoMap other = (GoogleCalendarDtoMap) obj;
 		if (key == null) {
 			if (other.key != null) {
 				return false;

@@ -1,9 +1,8 @@
 package jp.tnasu.f1tvnews.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import jp.tnasu.f1tvnews.dto.HtmlContent;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
@@ -11,7 +10,7 @@ import org.slim3.datastore.Model;
 import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 2)
-public class HtmlDocument {
+public class HtmlDocument implements Serializable {
 
 	private String title;
 	private String link;
@@ -21,7 +20,7 @@ public class HtmlDocument {
 	private Date publishedDate;
 	@Attribute(lob = true)
 	private List<HtmlContent> htmlContentList;
-	
+
 	public String getTitle() {
 		return title;
 	}
@@ -77,6 +76,8 @@ public class HtmlDocument {
 	public void setHtmlContentList(List<HtmlContent> htmlContentList) {
 		this.htmlContentList = htmlContentList;
 	}
+
+	private static final long serialVersionUID = 1L;
 
 	@Attribute(primaryKey = true)
 	private Key key;
@@ -151,4 +152,5 @@ public class HtmlDocument {
 		}
 		return true;
 	}
+
 }

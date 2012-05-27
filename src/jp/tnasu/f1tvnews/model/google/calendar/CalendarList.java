@@ -1,7 +1,7 @@
-package jp.tnasu.f1tvnews.model.google.oauth2;
+package jp.tnasu.f1tvnews.model.google.calendar;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Map;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
@@ -10,66 +10,57 @@ import org.slim3.datastore.json.Json;
 import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 1)
-public class Google implements Serializable {
+public class CalendarList implements Serializable {
 
-	private Date published;
-	@Json(alias = "access_token")
-	private String accessToken;
-	@Json(alias = "token_type")
-	private String tokenType;
-	@Json(alias = "expires_in")
-	private String expiresIn;
-	@Json(alias = "refresh_token")
-	private String refreshToken;
-	@Json(alias = "error")
-	private String error;
+	@Json(alias = "kind")
+	private String kindstr;
+	@Json(alias = "etag")
+	private String etag;
+	@Json(alias = "nextPageToken")
+	private String nextPageToken;
+	@Json(alias = "items")
+	private String items;
+	@Attribute(lob = true)
+	private Map<String, Calendar> itemMap;
 
-	public Date getPublished() {
-		return published;
+	public String getKindstr() {
+		return kindstr;
 	}
 
-	public void setPublished(Date published) {
-		this.published = published;
+	public void setKindstr(String kindstr) {
+		this.kindstr = kindstr;
 	}
 
-	public String getAccessToken() {
-		return accessToken;
+	public String getEtag() {
+		return etag;
 	}
 
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
+	public void setEtag(String etag) {
+		this.etag = etag;
 	}
 
-	public String getTokenType() {
-		return tokenType;
+	public String getNextPageToken() {
+		return nextPageToken;
 	}
 
-	public void setTokenType(String tokenType) {
-		this.tokenType = tokenType;
+	public void setNextPageToken(String nextPageToken) {
+		this.nextPageToken = nextPageToken;
 	}
 
-	public String getExpiresIn() {
-		return expiresIn;
+	public String getItems() {
+		return items;
 	}
 
-	public void setExpiresIn(String expiresIn) {
-		this.expiresIn = expiresIn;
+	public void setItems(String items) {
+		this.items = items;
 	}
 
-	public String getRefreshToken() {
-		return refreshToken;
+	public Map<String, Calendar> getItemMap() {
+		return itemMap;
 	}
 
-	public void setRefreshToken(String refreshToken) {
-		this.refreshToken = refreshToken;
-	}
-
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
+	public void setItemMap(Map<String, Calendar> itemMap) {
+		this.itemMap = itemMap;
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -137,7 +128,7 @@ public class Google implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Google other = (Google) obj;
+		CalendarList other = (CalendarList) obj;
 		if (key == null) {
 			if (other.key != null) {
 				return false;

@@ -33,7 +33,7 @@
 </form>
 </div>
 <div>
-<a href="https://code.google.com/apis/console/#project:68237896591:access">apis console</a>
+<a target="_blank" href="https://code.google.com/apis/console/#project:68237896591:access">apis console</a>
 </div>
 </body>
 </html>

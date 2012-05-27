@@ -8,15 +8,24 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jp.tnasu.f1tvnews.client.F1bsfujiClient;
+import jp.tnasu.f1tvnews.client.google.calendar.GoogleCalendarClient;
+import jp.tnasu.f1tvnews.client.google.oauth2.GoogleClient;
 import jp.tnasu.f1tvnews.dao.HtmlDocumentDao;
-import jp.tnasu.f1tvnews.dto.HtmlContent;
+import jp.tnasu.f1tvnews.dao.google.calendar.GoogleCalendarDtoMapDao;
+import jp.tnasu.f1tvnews.handler.ErrorHandler;
 import jp.tnasu.f1tvnews.handler.RssHandler;
+import jp.tnasu.f1tvnews.model.HtmlContent;
 import jp.tnasu.f1tvnews.model.HtmlDocument;
+import jp.tnasu.f1tvnews.model.google.calendar.Event;
+import jp.tnasu.f1tvnews.model.google.calendar.GoogleCalendarDto;
+import jp.tnasu.f1tvnews.model.google.calendar.GoogleCalendarDtoMap;
+import jp.tnasu.f1tvnews.model.google.oauth2.Google;
 
 import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
@@ -30,6 +39,10 @@ public class RssController extends Controller {
 
 	HtmlDocumentDao htmlDocumentDao = new HtmlDocumentDao();
 	F1bsfujiClient f1bsfujiClient = new F1bsfujiClient();
+
+	GoogleCalendarDtoMapDao googleCalendarDtoMapDao = new GoogleCalendarDtoMapDao();
+	GoogleClient googleClinet = new GoogleClient();
+	GoogleCalendarClient googleCalendarClient = new GoogleCalendarClient();
 
 	@Override
 	public Navigation run() throws Exception {
@@ -53,6 +66,7 @@ public class RssController extends Controller {
 				htmlDocumentDao.put(htmlDocument);
 			}
 		}
+		registGoogleCalendar(htmlDocument);
 		RssHandler.writeRss(response, htmlDocument);
 		return null;
 	}
@@ -63,7 +77,7 @@ public class RssController extends Controller {
 			con = f1bsfujiClient.getConnection(lastModified);
 			htmlContent.setLastModified(con.getLastModified());
 			if (con.getResponseCode() == 200) {
-				htmlContent.setHtml(new Text(f1bsfujiClient.getHtml(con)));
+				htmlContent.setHtml(new Text(f1bsfujiClient.getContent(con)));
 			}
 			return htmlContent;
 		} finally {
@@ -137,7 +151,7 @@ public class RssController extends Controller {
 	static final String regexQualify = "【予選】";
 	static final String regexRace = "【決勝】";
 	static final String regex = "([0-9]月[0-9]?[0-9]日)\\(.\\) ([0-9]?[0-9]:[0-9][0-9])～([0-9]?[0-9]:[0-9]?[0-9])";
-	
+
 	private HtmlContent fillAnyTime(HtmlContent htmlContent, String html) {
 		try {
 			fillAnyTime(htmlContent, html, regex, regexQualify);
@@ -173,6 +187,47 @@ public class RssController extends Controller {
 				htmlContent.setRaceStartTime(startCal.getTime());
 				htmlContent.setRaceEndTime(endCal.getTime());
 			}
+		}
+	}
+
+	private void registGoogleCalendar(HtmlDocument htmlDocument) {
+		if (googleClinet.isInitialize()) {
+			return;
+		}
+		try {
+			HtmlContent htmlContent = htmlDocument.getHtmlContentList().get(0);
+			Key key = googleCalendarDtoMapDao.getKey();
+			GoogleCalendarDtoMap googleCalendarDtoMap = googleCalendarDtoMapDao.get(key);
+			for (Entry<String, GoogleCalendarDto> entry : googleCalendarDtoMap.getGoogleCalendarMap().entrySet()) {
+				Google google = entry.getValue().getGoogle();
+				Event eventQualify = googleCalendarClient.getEvent(htmlContent.getTitle(), htmlContent.getQualifyStartTime(), htmlContent.getQualifyEndTime());
+				Event eventRace = googleCalendarClient.getEvent(htmlContent.getTitle(), htmlContent.getRaceStartTime(), htmlContent.getRaceEndTime());
+				for (Event event : new Event[] { eventQualify, eventRace }) {
+					String[] calendarIds = entry.getValue().getCalendarList();
+					for (String calendarId : calendarIds) {
+						HttpURLConnection http = googleCalendarClient.getEventInsert(google, event, calendarId);
+						String content = googleCalendarClient.getContent(http);
+						LOGGER.severe(content);
+						if (http.getResponseCode() != 200) {
+							// jp.tnasu.f1tvnews.model.google.calendar.Error error = ErrorMeta.get().jsonToModel(content);
+							// System.out.println(error.getCode());
+							// System.out.println(error.getMessage());
+							// if (error.getErrors() != null) {
+							// ErrorDetail[] errors = ErrorDetailMeta.get().jsonToModels(error.getErrors());
+							// for (ErrorDetail e : errors) {
+							// System.out.println(e.getDomain());
+							// System.out.println(e.getReason());
+							// System.out.println(e.getMessage());
+							// System.out.println(e.getLocationType());
+							// System.out.println(e.getLocation());
+							// }
+							// }
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			ErrorHandler.writeErrorLogger(e, LOGGER);
 		}
 	}
 

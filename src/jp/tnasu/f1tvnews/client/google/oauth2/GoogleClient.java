@@ -1,27 +1,25 @@
 package jp.tnasu.f1tvnews.client.google.oauth2;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.logging.Logger;
 
+import jp.tnasu.f1tvnews.client.AbstractClient;
 import jp.tnasu.f1tvnews.dao._admin.google.calendar.GoogleCalendarDao;
 import jp.tnasu.f1tvnews.model._admin.google.calendar.GoogleCalendar;
 
 import com.google.appengine.api.datastore.Key;
 
-public class GoogleClient {
+public class GoogleClient extends AbstractClient {
 
 	static final Logger LOGGER = Logger.getLogger(GoogleClient.class.getName());
-	
+
 	public String CLIENT_ID;
 	public String CLIENT_SECRET;
 	public String CALLBACK;
@@ -30,24 +28,22 @@ public class GoogleClient {
 	public static final String SCOPE = "https://www.googleapis.com/auth/calendar";
 
 	GoogleCalendarDao googleCalendarDao = new GoogleCalendarDao();
-	
+
 	public GoogleClient() {
 		Key key = googleCalendarDao.getKey();
 		GoogleCalendar googleCalendar = googleCalendarDao.get(key);
-    	CLIENT_ID = googleCalendar.getClientId();
-    	CLIENT_SECRET = googleCalendar.getClientSecret();
-    	CALLBACK = googleCalendar.getCallback();
+		CLIENT_ID = googleCalendar.getClientId();
+		CLIENT_SECRET = googleCalendar.getClientSecret();
+		CALLBACK = googleCalendar.getCallback();
 	}
-	
+
+	public boolean isInitialize() {
+		return CLIENT_ID == null || CLIENT_ID.isEmpty() || CLIENT_SECRET == null || CLIENT_SECRET.isEmpty() || CALLBACK == null || CALLBACK.isEmpty();
+	}
+
+	@Override
 	public HttpURLConnection getDefault(String u) throws IOException {
-		URL url = new URL(u);
-		HttpURLConnection http = (HttpURLConnection) url.openConnection();
-		http.setReadTimeout(1000);
-		http.setConnectTimeout(1000);
-		http.setDoInput(true);
-		http.setDoOutput(true);
-		http.setInstanceFollowRedirects(false);
-		http.setRequestProperty("Host", url.getHost());
+		HttpURLConnection http = super.getDefault(u);
 		http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		return http;
 	}
@@ -96,31 +92,11 @@ public class GoogleClient {
 	}
 
 	public String getAuthUrl() throws UnsupportedEncodingException {
-		return AUTH + 
-				"?" + 
-				"client_id=" + CLIENT_ID + 
-				"&" + 
-				"redirect_uri=" + URLEncoder.encode(CALLBACK, "UTF8") + 
-				"&" + 
-				"scope=" + URLEncoder.encode(SCOPE, "UTF8") + 
-				"&" + 
-				"response_type=code";
+		return AUTH + "?" + "client_id=" + CLIENT_ID + "&" + "redirect_uri=" + URLEncoder.encode(CALLBACK, "UTF8") + "&" + "scope=" + URLEncoder.encode(SCOPE, "UTF8") + "&" + "response_type=code";
 	}
 
 	public String getAuthUrlForInner() throws UnsupportedEncodingException {
-		return getAuthUrl() + 
-				"&" + 
-				"approval_prompt=force" + 
-				"&" + 
-				"access_type=offline";
+		return getAuthUrl() + "&" + "approval_prompt=force" + "&" + "access_type=offline";
 	}
-	
-	public String getContent(HttpURLConnection http) throws UnsupportedEncodingException, IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(http.getInputStream(), "UTF-8"));
-		StringBuilder sb = new StringBuilder();
-		while (br.ready()) {
-			sb.append(br.readLine());
-		}
-		return sb.toString();
-	}
+
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import jp.tnasu.f1tvnews.dto.HtmlContent;
+import jp.tnasu.f1tvnews.model.HtmlContent;
 import jp.tnasu.f1tvnews.model.HtmlDocument;
 
 import com.sun.syndication.feed.synd.SyndContent;
