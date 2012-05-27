@@ -41,7 +41,7 @@ public class GoogleListDao extends DaoBase<GoogleList>{
 		boolean find = false;
 		int index = 0;
 		for (Google g : googles) {
-			if (g.getRefreshToken().equals(google.getRefreshToken())) {
+			if (g != null && g.getRefreshToken().equals(google.getRefreshToken())) {
 				find = true;
 				break;
 			}
