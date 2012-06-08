@@ -6,9 +6,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.slim3.tester.AppEngineTestCase;
 
-public class GoogleCalendarDaoTest extends AppEngineTestCase {
+public class AdminGoogleCalendarDaoTest extends AppEngineTestCase {
 
-    private GoogleCalendarDao dao = new GoogleCalendarDao();
+    private AdminGoogleCalendarDao dao = new AdminGoogleCalendarDao();
 
     @Test
     public void test() throws Exception {

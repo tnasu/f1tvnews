@@ -11,8 +11,8 @@ import java.net.URLEncoder;
 import java.util.logging.Logger;
 
 import jp.tnasu.f1tvnews.client.AbstractClient;
-import jp.tnasu.f1tvnews.dao._admin.google.calendar.GoogleCalendarDao;
-import jp.tnasu.f1tvnews.model._admin.google.calendar.GoogleCalendar;
+import jp.tnasu.f1tvnews.dao._admin.google.calendar.AdminGoogleCalendarDao;
+import jp.tnasu.f1tvnews.model._admin.google.calendar.AdminGoogleCalendar;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -27,14 +27,14 @@ public class GoogleClient extends AbstractClient {
 	public static final String TOKEN = "https://accounts.google.com/o/oauth2/token";
 	public static final String SCOPE = "https://www.googleapis.com/auth/calendar";
 
-	GoogleCalendarDao googleCalendarDao = new GoogleCalendarDao();
+	AdminGoogleCalendarDao adminGoogleCalendarDao = new AdminGoogleCalendarDao();
 
 	public GoogleClient() {
-		Key key = googleCalendarDao.getKey();
-		GoogleCalendar googleCalendar = googleCalendarDao.get(key);
-		CLIENT_ID = googleCalendar.getClientId();
-		CLIENT_SECRET = googleCalendar.getClientSecret();
-		CALLBACK = googleCalendar.getCallback();
+		Key key = adminGoogleCalendarDao.getKey();
+		AdminGoogleCalendar adminGoogleCalendar = adminGoogleCalendarDao.get(key);
+		CLIENT_ID = adminGoogleCalendar.getClientId();
+		CLIENT_SECRET = adminGoogleCalendar.getClientSecret();
+		CALLBACK = adminGoogleCalendar.getCallback();
 	}
 
 	public boolean isInitialize() {

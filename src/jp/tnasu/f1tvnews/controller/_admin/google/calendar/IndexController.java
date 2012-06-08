@@ -1,7 +1,7 @@
 package jp.tnasu.f1tvnews.controller._admin.google.calendar;
 
-import jp.tnasu.f1tvnews.dao._admin.google.calendar.GoogleCalendarDao;
-import jp.tnasu.f1tvnews.model._admin.google.calendar.GoogleCalendar;
+import jp.tnasu.f1tvnews.dao._admin.google.calendar.AdminGoogleCalendarDao;
+import jp.tnasu.f1tvnews.model._admin.google.calendar.AdminGoogleCalendar;
 
 import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
@@ -10,13 +10,13 @@ import com.google.appengine.api.datastore.Key;
 
 public class IndexController extends Controller {
 
-	GoogleCalendarDao googleCalendarDao = new GoogleCalendarDao();
+	AdminGoogleCalendarDao adminGoogleCalendarDao = new AdminGoogleCalendarDao();
 	
 	@Override
 	public Navigation run() throws Exception {
-		Key key = googleCalendarDao.getKey();
-		GoogleCalendar googleCalendar = googleCalendarDao.get(key);
-		requestScope("googleCalendar", googleCalendar);
+		Key key = adminGoogleCalendarDao.getKey();
+		AdminGoogleCalendar adminGoogleCalendar = adminGoogleCalendarDao.get(key);
+		requestScope("adminGoogleCalendar", adminGoogleCalendar);
 		return forward("index.jsp");
 	}
 

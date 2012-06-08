@@ -8,7 +8,7 @@ import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
 
 @Model(schemaVersion = 1)
-public class GoogleCalendar implements Serializable {
+public class AdminGoogleCalendar implements Serializable {
 
 	private String clientId;
 	private String clientSecret;
@@ -103,7 +103,7 @@ public class GoogleCalendar implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        GoogleCalendar other = (GoogleCalendar) obj;
+        AdminGoogleCalendar other = (AdminGoogleCalendar) obj;
         if (key == null) {
             if (other.key != null) {
                 return false;
