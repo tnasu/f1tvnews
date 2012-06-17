@@ -13,13 +13,13 @@
 <div>
 <form action="save" method="post">
 <div>
-<input type="text" name="clientId" value="${adminGoogleCalendar.clientId}" />
+client_id:<input type="text" name="clientId" value="${adminGoogleCalendar.clientId}" size="100"/>
 </div>
 <div>
-<input type="text" name="clientSecret" value="${adminGoogleCalendar.clientSecret}" />
+client_secret:<input type="text" name="clientSecret" value="${adminGoogleCalendar.clientSecret}" size="100" />
 </div>
 <div>
-<input type="text" name="callback" value="${adminGoogleCalendar.callback}" />
+callback:<input type="text" name="callback" value="${adminGoogleCalendar.callback}" size="100" />
 </div>
 <div>
 <input type="submit" value="save setting" />
