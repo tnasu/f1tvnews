@@ -104,6 +104,9 @@ public class RssController extends Controller {
 		htmlContent.setTitle(getString(html, "<div class=\"title\">", "</div>") + getString(html, "<div class=\"subtitle\">", "</div>"));
 		htmlContent.setDescription(getString(html, "<div class=\"midokoroIn\">", "</div>").replaceAll("<.+?>", " "));
 		htmlContent.setShowtime(getString(html, "<div class=\"midokoroIn\"> <p>", "</p>").replaceAll("<.+?>", " "));
+		if (htmlContent.getShowtime().indexOf(regexQualify) == -1 || htmlContent.getShowtime().indexOf(regexRace) == -1) {
+			htmlContent.setShowtime(getString(html, "<div class=\"free\">", "</div>").replaceAll("<br />", " ").replaceAll("<p>", " ").replace("</p>", " "));
+		}
 		fillAnyTime(htmlContent, html);
 		return htmlContent;
 	}
@@ -112,7 +115,7 @@ public class RssController extends Controller {
 
 	static final String regexRace = "【決勝】";
 
-	static final String regex = "([0-9]月[0-9]?[0-9]日)\\(.\\) ([0-9]?[0-9]:[0-9][0-9])～([0-9]?[0-9]:[0-9]?[0-9])";
+	static final String regex = "([0-9]?[0-9]月[0-9]?[0-9]日)\\(.+\\)[ ]*([0-9]?[0-9]:[0-9][0-9])～([0-9]?[0-9]:[0-9]?[0-9])";
 
 	private HtmlContent fillAnyTime(HtmlContent htmlContent, String html) {
 		try {
