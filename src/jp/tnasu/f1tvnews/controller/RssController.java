@@ -52,12 +52,12 @@ public class RssController extends Controller {
 		HtmlDocument htmlDocument = htmlDocumentDao.get(key);
 		long lastModified = 0L;
 		long nextModify = 1L;
-		if (htmlDocument.getHtmlContentList().size() != 0) {
-			HtmlContent latest = htmlDocument.getHtmlContentList().get(0);
-			lastModified = latest.getLastModified();
-			nextModify = latest.getNextModify();
-		}
-		if (lastModified < nextModify && nextModify < new Date().getTime()) {
+//		if (htmlDocument.getHtmlContentList().size() != 0) {
+//			HtmlContent latest = htmlDocument.getHtmlContentList().get(0);
+//			lastModified = latest.getLastModified();
+//			nextModify = latest.getNextModify();
+//		}
+//		if (lastModified < nextModify && nextModify < new Date().getTime()) {
 			HtmlContent htmlContent = new HtmlContent();
 			fillHtml(lastModified, htmlContent);
 			if (lastModified != htmlContent.getLastModified()) {
@@ -66,9 +66,9 @@ public class RssController extends Controller {
 				fillDocument(htmlDocument, htmlContent);
 				htmlDocument.getHtmlContentList().add(0, htmlContent);
 				htmlDocumentDao.put(htmlDocument);
-				registGoogleCalendar(htmlDocument);
+				//registGoogleCalendar(htmlDocument);
 			}
-		}
+//		}
 		RssHandler.writeRss(response, htmlDocument);
 		return null;
 	}
@@ -115,7 +115,7 @@ public class RssController extends Controller {
 
 	static final String regexRace = "【決勝】";
 
-	static final String regex = "([0-9]?[0-9]月[0-9]?[0-9]日)\\(.+\\)[ ]*([0-9]?[0-9]:[0-9][0-9])～([0-9]?[0-9]:[0-9]?[0-9])";
+	static final String regex = "([0-9]?[0-9]月[0-9]?[0-9]日)\\([月火水木金土日]{1}\\)[ ]?([0-9]?[0-9]:[0-9][0-9])～([0-9]?[0-9]:[0-9]?[0-9])";
 
 	private HtmlContent fillAnyTime(HtmlContent htmlContent, String html) {
 		try {
