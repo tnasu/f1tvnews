@@ -30,6 +30,6 @@ public class RemoveController extends Controller {
 		} catch (Exception e) {
 			LOGGER.severe(e.getLocalizedMessage());
 		}
-		return redirect("");
+		return redirect("/_admin/rss/");
 	}
 }

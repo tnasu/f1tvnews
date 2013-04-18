@@ -12,6 +12,8 @@ import com.google.appengine.api.datastore.Key;
 @Model(schemaVersion = 1)
 public class Google implements Serializable {
 
+	private String clientId;
+	
 	private Date published;
 	@Json(alias = "access_token")
 	private String accessToken;
@@ -23,6 +25,14 @@ public class Google implements Serializable {
 	private String refreshToken;
 	@Json(alias = "error")
 	private String error;
+
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 
 	public Date getPublished() {
 		return published;

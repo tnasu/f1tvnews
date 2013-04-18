@@ -28,6 +28,6 @@ public class SaveController extends AbstractCalendarController {
     	GoogleCalendarDtoMap googleCalendarDtoMap = googleCalendarDtoMapDao.get(key);
     	googleCalendarDtoMapDao.putGoogleCalendarDto(googleCalendarDto, googleCalendarDtoMap);
     	googleCalendarDtoMapDao.put(googleCalendarDtoMap);
-    	return redirect("");
+    	return redirect("/google/calendar/");
     }
 }

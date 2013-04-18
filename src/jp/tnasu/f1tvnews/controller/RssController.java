@@ -8,8 +8,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.Map.Entry;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +30,7 @@ import jp.tnasu.f1tvnews.model.google.oauth2.Google;
 
 import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
+import org.slim3.util.StringUtil;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
@@ -57,9 +58,16 @@ public class RssController extends Controller {
 			lastModified = latest.getLastModified();
 			nextModify = latest.getNextModify();
 		}
-		if (lastModified < nextModify && nextModify < new Date().getTime()) {
+		LOGGER.severe("" + new Date(lastModified));
+		LOGGER.severe("" + new Date(nextModify));
+		String force = request.getParameter("force");
+		if (!StringUtil.isEmpty(force)) {
+			lastModified = 0L;
+		}
+		if (!StringUtil.isEmpty(force) || (lastModified < nextModify && nextModify < new Date().getTime())) {
 			HtmlContent htmlContent = new HtmlContent();
 			fillHtml(lastModified, htmlContent);
+			LOGGER.severe(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS").format(new Date(htmlContent.getLastModified())));
 			if (lastModified != htmlContent.getLastModified()) {
 				fillData(htmlContent);
 				fillNextModify(htmlContent);
@@ -209,15 +217,23 @@ public class RssController extends Controller {
 			GoogleCalendarDtoMap googleCalendarDtoMap = googleCalendarDtoMapDao.get(key);
 			for (Entry<String, GoogleCalendarDto> entry : googleCalendarDtoMap.getGoogleCalendarMap().entrySet()) {
 				Google google = entry.getValue().getGoogle();
+				LOGGER.severe("" + google.getClientId());
+				LOGGER.severe("" + google.getAccessToken());
+				LOGGER.severe("" + google.getRefreshToken());
 				Event eventQualify = googleCalendarClient.getEvent(htmlContent.getTitle(), htmlContent.getQualifyStartTime(), htmlContent.getQualifyEndTime());
 				Event eventRace = googleCalendarClient.getEvent(htmlContent.getTitle(), htmlContent.getRaceStartTime(), htmlContent.getRaceEndTime());
 				for (Event event : new Event[] { eventQualify, eventRace }) {
+					LOGGER.severe("" + event.getSummary());
+					LOGGER.severe("" + event.getStart().getModel().getDateTime());
+					entry.getValue().getGoogle().getRefreshToken();
 					String[] calendarIds = entry.getValue().getCalendarList();
 					for (String calendarId : calendarIds) {
+						LOGGER.severe(calendarId);
 						HttpURLConnection http = googleCalendarClient.getEventInsert(google, event, calendarId);
 						String content = googleCalendarClient.getContent(http);
 						LOGGER.severe(content);
 						if (http.getResponseCode() != 200) {
+							// FIXME no test
 							// jp.tnasu.f1tvnews.model.google.calendar.Error error = ErrorMeta.get().jsonToModel(content);
 							// System.out.println(error.getCode());
 							// System.out.println(error.getMessage());

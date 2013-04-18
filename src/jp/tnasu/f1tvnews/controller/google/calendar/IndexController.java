@@ -46,8 +46,8 @@ public class IndexController extends AbstractCalendarController {
 		}
 		Key key = googleCalendarDtoMapDao.getKey();
 		GoogleCalendarDtoMap googleCalendarDtoMap = googleCalendarDtoMapDao.get(key);
-		GoogleCalendarDto googleCalendarDto = googleCalendarDtoMap.getGoogleCalendarMap().get(google.getRefreshToken());
-		if (googleCalendarDto != null) {
+		GoogleCalendarDto googleCalendarDto = googleCalendarDtoMap.getGoogleCalendarMap().get(google.getClientId());
+		if (googleCalendarDto != null && googleCalendarDto.getCalendarList() != null) {
 			for (String calendarId : googleCalendarDto.getCalendarList()) {
 				Calendar calendar = itemMap.get(calendarId);
 				calendar.setSelected(true);

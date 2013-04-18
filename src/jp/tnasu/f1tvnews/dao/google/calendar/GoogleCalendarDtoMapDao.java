@@ -37,8 +37,14 @@ public class GoogleCalendarDtoMapDao extends DaoBase<GoogleCalendarDtoMap>{
 	}
 	
 	public void putGoogleCalendarDto(GoogleCalendarDto googleCalendarDto, GoogleCalendarDtoMap googleCalendarDtoMap) {
+		removeGoogleCalendarDto(googleCalendarDtoMap);
 		Map<String, GoogleCalendarDto> googleCalendarDtos = googleCalendarDtoMap.getGoogleCalendarMap();
-		googleCalendarDtos.put(googleCalendarDto.getGoogle().getRefreshToken(), googleCalendarDto);
+		googleCalendarDtos.put(googleCalendarDto.getGoogle().getClientId(), googleCalendarDto);
+	}
+	
+	public void removeGoogleCalendarDto(GoogleCalendarDtoMap googleCalendarDtoMap) {
+		Map<String, GoogleCalendarDto> googleCalendarDtos = googleCalendarDtoMap.getGoogleCalendarMap();
+		googleCalendarDtos.clear();
 	}
 	
 }
