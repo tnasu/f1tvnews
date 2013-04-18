@@ -220,6 +220,9 @@ public class RssController extends Controller {
 				LOGGER.severe("" + google.getClientId());
 				LOGGER.severe("" + google.getAccessToken());
 				LOGGER.severe("" + google.getRefreshToken());
+				if (entry.getValue().getCalendarList() == null) {
+					continue;
+				}
 				Event eventQualify = googleCalendarClient.getEvent(htmlContent.getTitle(), htmlContent.getQualifyStartTime(), htmlContent.getQualifyEndTime());
 				Event eventRace = googleCalendarClient.getEvent(htmlContent.getTitle(), htmlContent.getRaceStartTime(), htmlContent.getRaceEndTime());
 				for (Event event : new Event[] { eventQualify, eventRace }) {
