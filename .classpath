@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/junit-4.7.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/slim3-1.0.16.jar" sourcepath="libsrc/slim3-1.0.15-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/slim3-1.0.16.jar" sourcepath="libsrc/slim3-1.0.16-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jaxen.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jdom-1.1.3.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/xalan.jar"/>
