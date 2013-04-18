@@ -15,7 +15,7 @@ public class DeleteController extends Controller {
     public Navigation run() throws Exception {
     	Key key = adminGoogleCalendarDao.getKey();
     	adminGoogleCalendarDao.delete(key);
-    	return redirect("");
+    	return redirect("/_admin/google/calendar/");
     }
     
 }

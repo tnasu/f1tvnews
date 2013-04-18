@@ -20,7 +20,7 @@ public class SaveController extends Controller {
     	Key key = adminGoogleCalendarDao.getKey();
     	adminGoogleCalendar.setKey(key);
     	adminGoogleCalendarDao.put(adminGoogleCalendar);
-    	return redirect("");
+    	return redirect("/_admin/google/calendar/");
     }
     
 }
