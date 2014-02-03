@@ -1,6 +1,6 @@
 package jp.tnasu.f1tvnews.meta.google.oauth2;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2013-01-08 01:01:23")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2014-02-04 00:09:55")
 /** */
 public final class GoogleMeta extends org.slim3.datastore.ModelMeta<jp.tnasu.f1tvnews.model.google.oauth2.Google> {
 
