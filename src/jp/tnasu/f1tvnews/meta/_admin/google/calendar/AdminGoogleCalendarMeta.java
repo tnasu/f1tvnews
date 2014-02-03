@@ -1,6 +1,6 @@
 package jp.tnasu.f1tvnews.meta._admin.google.calendar;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2014-02-04 00:09:55")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2014-02-04 00:13:13")
 /** */
 public final class AdminGoogleCalendarMeta extends org.slim3.datastore.ModelMeta<jp.tnasu.f1tvnews.model._admin.google.calendar.AdminGoogleCalendar> {
 

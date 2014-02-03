@@ -33,6 +33,7 @@ public class CallbackController extends AbstractOauth2Controller {
 		try {
 			Google google = GoogleMeta.get().jsonToModel(content);
 			google.setPublished(new Date());
+			google.setClientId(googleClient.CLIENT_ID);
 			sessionScope("google", google);
 			Key key = googleListDao.getKey();
 			GoogleList googleList = googleListDao.get(key);

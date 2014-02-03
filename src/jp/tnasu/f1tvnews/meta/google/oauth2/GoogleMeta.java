@@ -1,11 +1,14 @@
 package jp.tnasu.f1tvnews.meta.google.oauth2;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2014-02-04 00:09:55")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2014-02-04 00:13:13")
 /** */
 public final class GoogleMeta extends org.slim3.datastore.ModelMeta<jp.tnasu.f1tvnews.model.google.oauth2.Google> {
 
     /** */
     public final org.slim3.datastore.StringAttributeMeta<jp.tnasu.f1tvnews.model.google.oauth2.Google> accessToken = new org.slim3.datastore.StringAttributeMeta<jp.tnasu.f1tvnews.model.google.oauth2.Google>(this, "accessToken", "accessToken");
+
+    /** */
+    public final org.slim3.datastore.StringAttributeMeta<jp.tnasu.f1tvnews.model.google.oauth2.Google> clientId = new org.slim3.datastore.StringAttributeMeta<jp.tnasu.f1tvnews.model.google.oauth2.Google>(this, "clientId", "clientId");
 
     /** */
     public final org.slim3.datastore.StringAttributeMeta<jp.tnasu.f1tvnews.model.google.oauth2.Google> error = new org.slim3.datastore.StringAttributeMeta<jp.tnasu.f1tvnews.model.google.oauth2.Google>(this, "error", "error");
@@ -46,6 +49,7 @@ public final class GoogleMeta extends org.slim3.datastore.ModelMeta<jp.tnasu.f1t
     public jp.tnasu.f1tvnews.model.google.oauth2.Google entityToModel(com.google.appengine.api.datastore.Entity entity) {
         jp.tnasu.f1tvnews.model.google.oauth2.Google model = new jp.tnasu.f1tvnews.model.google.oauth2.Google();
         model.setAccessToken((java.lang.String) entity.getProperty("accessToken"));
+        model.setClientId((java.lang.String) entity.getProperty("clientId"));
         model.setError((java.lang.String) entity.getProperty("error"));
         model.setExpiresIn((java.lang.String) entity.getProperty("expiresIn"));
         model.setKey(entity.getKey());
@@ -66,6 +70,7 @@ public final class GoogleMeta extends org.slim3.datastore.ModelMeta<jp.tnasu.f1t
             entity = new com.google.appengine.api.datastore.Entity(kind);
         }
         entity.setProperty("accessToken", m.getAccessToken());
+        entity.setProperty("clientId", m.getClientId());
         entity.setProperty("error", m.getError());
         entity.setProperty("expiresIn", m.getExpiresIn());
         entity.setProperty("published", m.getPublished());
@@ -138,6 +143,10 @@ public final class GoogleMeta extends org.slim3.datastore.ModelMeta<jp.tnasu.f1t
             writer.setNextPropertyName("access_token");
             encoder0.encode(writer, m.getAccessToken());
         }
+        if(m.getClientId() != null){
+            writer.setNextPropertyName("clientId");
+            encoder0.encode(writer, m.getClientId());
+        }
         if(m.getError() != null){
             writer.setNextPropertyName("error");
             encoder0.encode(writer, m.getError());
@@ -176,6 +185,8 @@ public final class GoogleMeta extends org.slim3.datastore.ModelMeta<jp.tnasu.f1t
         org.slim3.datastore.json.Default decoder0 = new org.slim3.datastore.json.Default();
         reader = rootReader.newObjectReader("access_token");
         m.setAccessToken(decoder0.decode(reader, m.getAccessToken()));
+        reader = rootReader.newObjectReader("clientId");
+        m.setClientId(decoder0.decode(reader, m.getClientId()));
         reader = rootReader.newObjectReader("error");
         m.setError(decoder0.decode(reader, m.getError()));
         reader = rootReader.newObjectReader("expires_in");
