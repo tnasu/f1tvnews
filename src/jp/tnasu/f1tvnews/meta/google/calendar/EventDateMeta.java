@@ -1,6 +1,6 @@
 package jp.tnasu.f1tvnews.meta.google.calendar;
 
-//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2014-02-04 00:13:13")
+//@javax.annotation.Generated(value = { "slim3-gen", "@VERSION@" }, date = "2014-05-07 03:19:26")
 /** */
 public final class EventDateMeta extends org.slim3.datastore.ModelMeta<jp.tnasu.f1tvnews.model.google.calendar.EventDate> {
 

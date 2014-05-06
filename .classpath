@@ -12,7 +12,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/rome-1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-calendar-v3-rev3-java-1.5.0-beta.jar" sourcepath="libsrc/google-api-calendar-v3-rev3-java-1.5.0-beta-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-oauth2-v2-rev3-java-1.5.0-beta.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 7 [1.7.0_51]"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-calendar-2.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-calendar-meta-2.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gdata-client-1.0.jar"/>
